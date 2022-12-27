@@ -7,8 +7,10 @@ export default function Header() {
             <img 
                 src={troll}
                 alt="troll-face"
+                className="header--img"
             />
-            <h1>Header component</h1>
+            <h2 className="header--title">Meme Generator</h2>
+            <h4 className="header--info">#FullFun</h4>
             
         </header>
         
