@@ -1,17 +1,20 @@
 import React from "react";
-import memeData from "./memedata";
 export default function Meme() {
   const [meme, setMeme] = React.useState({
     topText: "",
     bottomText: "",
     randomImage: "http://i.imgflip.com/1bij.jpg",
   });
-  const [allmemeimg, setAllmemeimg] = React.useState(memeData);
+  const [allmemeimg, setAllmemeimg] = React.useState([]);
+  React.useEffect(()=>{
+    fetch("https://api.imgflip.com/get_memes")
+      .then(res => res.json())
+      .then(data => setAllmemeimg(data.data.memes))
+  },[])
   function getMemeImage() {
     // console.log("inside getMemeImage");
-    const memesArray = allmemeimg.data.memes;
-    const randomNumber = Math.floor(Math.random() * memesArray.length);
-    const url = memesArray[randomNumber].url;
+    const randomNumber = Math.floor(Math.random() * allmemeimg.length);
+    const url = allmemeimg[randomNumber].url;
     setMeme((prevMeme) => ({
       ...prevMeme,
       randomImage: url,
@@ -49,7 +52,7 @@ export default function Meme() {
       </div>
       <center>
         <div className="meme">
-          <img src={meme.randomImage} className="meme--image" />
+          <img src={meme.randomImage} alt="MEME IMG" className="meme--image" />
           <h2 className="meme--text top">{meme.topText}</h2>
           <h2 className="meme--text bottom">{meme.bottomText}</h2>
         </div>
